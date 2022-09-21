@@ -1,9 +1,6 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace rokutroller
 {
@@ -31,11 +28,11 @@ namespace rokutroller
             HttpClient client = new();
             try
             {
-                await client.PostAsync("http://" + materialTextBox1.Text + ":8060/keypress/" + button, content);
+                await client.PostAsync($"http://{materialTextBox1.Text}:8060/keypress/{button}", content);
             }
             catch (Exception)
             {
-                MessageBox.Show("The specified IP address was invalid.", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The specified IP address is invalid.", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -60,7 +57,7 @@ namespace rokutroller
             HttpClient client = new();
             try
             {
-                await client.PostAsync("http://" + materialTextBox1.Text + ":8060/launch/837?contentId=" + id, content);
+                await client.PostAsync($"http://{materialTextBox1.Text}:8060/launch/837?contentId={id}", content);
             }
             catch (Exception)
             {
@@ -73,13 +70,13 @@ namespace rokutroller
         }
         async private void MaterialButton1_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(materialTextBox1.Text))
+            if (string.IsNullOrEmpty(materialTextBox1.Text))
             {
                 MessageBox.Show("Please enter a IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             HttpClient client = new();
-            var responseString = await client.GetStringAsync("http://"+materialTextBox1.Text+":8060/query/device-info");
+            var responseString = await client.GetStringAsync($"http://{materialTextBox1.Text}:8060/query/device-info");
             Debug.WriteLine(responseString);
             MessageBox.Show(responseString);
         }
