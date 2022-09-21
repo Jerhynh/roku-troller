@@ -1,5 +1,6 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
@@ -8,7 +9,6 @@ namespace rokutroller
 {
     public partial class Troller : MaterialForm
     {
-        private static readonly HttpClient client = new();
         public Troller()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace rokutroller
             // OK button
             Dictionary<string, string> values = new();
             var content = new FormUrlEncodedContent(values);
-
+            HttpClient client = new();
             try
             {
                 await client.PostAsync("http://" + materialTextBox1.Text + ":8060/keypress/" + button, content);
@@ -57,7 +57,7 @@ namespace rokutroller
             }
             Dictionary<string, string> values = new();
             var content = new FormUrlEncodedContent(values);
-
+            HttpClient client = new();
             try
             {
                 await client.PostAsync("http://" + materialTextBox1.Text + ":8060/launch/837?contentId=" + id, content);
@@ -78,7 +78,9 @@ namespace rokutroller
                 MessageBox.Show("Please enter a IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            HttpClient client = new();
             var responseString = await client.GetStringAsync("http://"+materialTextBox1.Text+":8060/query/device-info");
+            Debug.WriteLine(responseString);
             MessageBox.Show(responseString);
         }
 
